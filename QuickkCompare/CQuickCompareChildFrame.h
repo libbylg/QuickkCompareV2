@@ -1,8 +1,9 @@
+#ifndef __CQuickCompareChildFrame_H_
+#define __CQuickCompareChildFrame_H_
+
 
 // CQuickCompareChildFrame.h : CQuickCompareChildFrame 类的接口
 //
-
-#pragma once
 
 class CQuickCompareChildFrame : public CMDIChildWndEx
 {
@@ -35,3 +36,7 @@ public:
 protected:
 	DECLARE_MESSAGE_MAP()
 };
+
+
+#endif//__CQuickCompareChildFrame_H_
+

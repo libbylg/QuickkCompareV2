@@ -4,7 +4,7 @@
 #include "PropertiesWnd.h"
 #include "Resource.h"
 #include "CQuickCompareMainFrame.h"
-#include "QuickkCompare.h"
+#include "CQuickCompareApp.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE

@@ -3,7 +3,7 @@
 //
 
 #include "stdafx.h"
-#include "QuickkCompare.h"
+#include "CQuickCompareApp.h"
 
 #include "CQuickCompareMainFrame.h"
 

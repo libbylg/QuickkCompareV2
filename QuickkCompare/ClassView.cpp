@@ -1,9 +1,9 @@
 
 #include "stdafx.h"
-#include "MainFrm.h"
+#include "CQuickCompareMainFrame.h"
 #include "ClassView.h"
 #include "Resource.h"
-#include "QuickkCompare.h"
+#include "CQuickCompareApp.h"
 
 class CClassViewMenuButton : public CMFCToolBarMenuButton
 {

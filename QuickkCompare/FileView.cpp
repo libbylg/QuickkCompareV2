@@ -1,9 +1,9 @@
 
 #include "stdafx.h"
-#include "mainfrm.h"
+#include "CQuickCompareMainFrame.h"
 #include "FileView.h"
 #include "Resource.h"
-#include "QuickkCompare.h"
+#include "CQuickCompareApp.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE

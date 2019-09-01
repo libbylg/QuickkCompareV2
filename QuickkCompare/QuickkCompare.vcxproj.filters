@@ -15,12 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="QuickkCompare.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="stdafx.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -31,12 +25,6 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="CQuickCompareChildFrame.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="QuickkCompareDoc.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="QuickkCompareView.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Resource.h">
@@ -57,11 +45,20 @@
     <ClInclude Include="PropertiesWnd.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="SplitterControl.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CQuickCompareApp.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CQuickCompareDoc.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CQuickCompareView.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="QuickkCompare.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -69,12 +66,6 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="CQuickCompareChildFrame.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="QuickkCompareDoc.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="QuickkCompareView.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="FileView.cpp">
@@ -92,17 +83,24 @@
     <ClCompile Include="PropertiesWnd.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="SplitterControl.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CQuickCompareApp.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CQuickCompareDoc.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CQuickCompareView.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="QuickkCompare.reg" />
     <None Include="res\QuickkCompare.rc2">
       <Filter>资源文件</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="QuickkCompare.rc">
-      <Filter>资源文件</Filter>
-    </ResourceCompile>
+    <None Include="QuickCompare.reg" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\file_view.ico">
@@ -183,5 +181,10 @@
     <Image Include="res\Toolbar256.bmp">
       <Filter>资源文件</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="QuickCompare.rc">
+      <Filter>资源文件</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

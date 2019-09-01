@@ -1,8 +1,11 @@
+#ifndef __CQuickCompareMainFrame_H_
+#define __CQuickCompareMainFrame_H_
+
 
 // CQuickCompareMainFrame.h : CQuickCompareMainFrame 类的接口
 //
 
-#pragma once
+
 #include "FileView.h"
 #include "ClassView.h"
 #include "OutputWnd.h"
@@ -62,3 +65,4 @@ protected:
 };
 
 
+#endif//__CQuickCompareMainFrame_H_

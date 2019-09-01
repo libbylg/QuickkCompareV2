@@ -32,9 +32,13 @@
 *.app
 
 
-/Debug
-/Release
+Debug
+Release
 
 *.suo
 *.sdf
 *.ipch
+*.opensdf
+*.res
+*.aps
+

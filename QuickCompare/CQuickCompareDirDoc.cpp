@@ -42,7 +42,9 @@ BOOL CQuickCompareDirDoc::OnOpenDocument(LPCTSTR lpszPathName)
     }
 
     for (int i = 0; i < 2; i++) {
-        m_pRootItems[i]->ScanChilds(1);
+        if (NULL != m_pRootItems[i]) {
+            m_pRootItems[i]->ScanChilds(1);
+        }
     }
 
     return TRUE;

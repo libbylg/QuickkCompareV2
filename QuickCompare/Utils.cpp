@@ -45,7 +45,7 @@ CString TFILEITEM::GetFullPath()
 TFILEITEM* TFILEITEM::AppendChild(TFILEITEM* pItem)
 {
     ASSERT((NULL != pItem));
-    pItem->dwLevel = pParent->dwLevel + 1;
+    pItem->dwLevel = this->dwLevel + 1;
 
     if (NULL == this->pChilds) {
         this->pChilds = pItem;
@@ -80,6 +80,7 @@ void TFILEITEM::ScanChilds(DWORD dwMaxDeep)
         }
 
         TFILEITEM* pItem = this->AppendChild(new TFILEITEM(fd.GetFileName(), fd.IsDirectory()));
+        ASSERT(NULL != pItem);
         if (dwMaxDeep > 1) {
             pItem->ScanChilds(dwMaxDeep - 1);
         }

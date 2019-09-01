@@ -9,8 +9,10 @@
 #include "CQuickCompareMainFrame.h"
 
 #include "CQuickCompareChildFrame.h"
-#include "CQuickCompareDoc.h"
-#include "CQuickCompareView.h"
+#include "CQuickCompareDirDoc.h"
+#include "CQuickCompareDirView.h"
+#include "CQuickCompareFileDoc.h"
+#include "CQuickCompareFileView.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -22,8 +24,8 @@
 BEGIN_MESSAGE_MAP(CQuickCompareApp, CWinAppEx)
 	ON_COMMAND(ID_APP_ABOUT, &CQuickCompareApp::OnAppAbout)
 	// 基于文件的标准文档命令
-	ON_COMMAND(ID_FILE_NEW, &CWinAppEx::OnFileNew)
-	ON_COMMAND(ID_FILE_OPEN, &CWinAppEx::OnFileOpen)
+	ON_COMMAND(ID_FILE_NEW, &CQuickCompareApp::OnFileNew)
+	ON_COMMAND(ID_FILE_OPEN, &CQuickCompareApp::OnFileOpen)
 END_MESSAGE_MAP()
 
 
@@ -59,102 +61,101 @@ CQuickCompareApp theApp;
 
 BOOL CQuickCompareApp::InitInstance()
 {
-	// 如果一个运行在 Windows XP 上的应用程序清单指定要
-	// 使用 ComCtl32.dll 版本 6 或更高版本来启用可视化方式，
-	//则需要 InitCommonControlsEx()。  否则，将无法创建窗口。
-	INITCOMMONCONTROLSEX InitCtrls;
-	InitCtrls.dwSize = sizeof(InitCtrls);
-	// 将它设置为包括所有要在应用程序中使用的
-	// 公共控件类。
-	InitCtrls.dwICC = ICC_WIN95_CLASSES;
-	InitCommonControlsEx(&InitCtrls);
+    // 如果一个运行在 Windows XP 上的应用程序清单指定要
+    // 使用 ComCtl32.dll 版本 6 或更高版本来启用可视化方式，
+    //则需要 InitCommonControlsEx()。  否则，将无法创建窗口。
+    INITCOMMONCONTROLSEX InitCtrls;
+    InitCtrls.dwSize = sizeof(InitCtrls);
+    // 将它设置为包括所有要在应用程序中使用的
+    // 公共控件类。
+    InitCtrls.dwICC = ICC_WIN95_CLASSES;
+    InitCommonControlsEx(&InitCtrls);
 
-	CWinAppEx::InitInstance();
+    CWinAppEx::InitInstance();
 
-	if (!AfxSocketInit())
-	{
-		AfxMessageBox(IDP_SOCKETS_INIT_FAILED);
-		return FALSE;
-	}
+    if (!AfxSocketInit()) {
+        AfxMessageBox(IDP_SOCKETS_INIT_FAILED);
+        return FALSE;
+    }
 
-	// 初始化 OLE 库
-	if (!AfxOleInit())
-	{
-		AfxMessageBox(IDP_OLE_INIT_FAILED);
-		return FALSE;
-	}
+    // 初始化 OLE 库
+    if (!AfxOleInit()) {
+        AfxMessageBox(IDP_OLE_INIT_FAILED);
+        return FALSE;
+    }
 
-	AfxEnableControlContainer();
+    AfxEnableControlContainer();
 
-	EnableTaskbarInteraction();
+    EnableTaskbarInteraction();
 
-	// 使用 RichEdit 控件需要  AfxInitRichEdit2()	
-	// AfxInitRichEdit2();
+    // 使用 RichEdit 控件需要  AfxInitRichEdit2()	
+    // AfxInitRichEdit2();
 
-	// 标准初始化
-	// 如果未使用这些功能并希望减小
-	// 最终可执行文件的大小，则应移除下列
-	// 不需要的特定初始化例程
-	// 更改用于存储设置的注册表项
-	// TODO:  应适当修改该字符串，
-	// 例如修改为公司或组织名
-	SetRegistryKey(_T("应用程序向导生成的本地应用程序"));
-	LoadStdProfileSettings(16);  // 加载标准 INI 文件选项(包括 MRU)
+    // 标准初始化
+    // 如果未使用这些功能并希望减小
+    // 最终可执行文件的大小，则应移除下列
+    // 不需要的特定初始化例程
+    // 更改用于存储设置的注册表项
+    // TODO:  应适当修改该字符串，
+    // 例如修改为公司或组织名
+    SetRegistryKey(_T("应用程序向导生成的本地应用程序"));
+    LoadStdProfileSettings(16);  // 加载标准 INI 文件选项(包括 MRU)
 
 
-	InitContextMenuManager();
+    InitContextMenuManager();
 
-	InitKeyboardManager();
+    InitKeyboardManager();
 
-	InitTooltipManager();
-	CMFCToolTipInfo ttParams;
-	ttParams.m_bVislManagerTheme = TRUE;
-	theApp.GetTooltipManager()->SetTooltipParams(AFX_TOOLTIP_TYPE_ALL,
-		RUNTIME_CLASS(CMFCToolTipCtrl), &ttParams);
+    InitTooltipManager();
+    CMFCToolTipInfo ttParams;
+    ttParams.m_bVislManagerTheme = TRUE;
+    theApp.GetTooltipManager()->SetTooltipParams(AFX_TOOLTIP_TYPE_ALL,
+        RUNTIME_CLASS(CMFCToolTipCtrl), &ttParams);
 
-	// 注册应用程序的文档模板。  文档模板
-	// 将用作文档、框架窗口和视图之间的连接
-	CMultiDocTemplate* pDocTemplate;
-	pDocTemplate = new CMultiDocTemplate(IDR_QuickCompareTYPE,
-		RUNTIME_CLASS(CQuickCompareDoc),
-		RUNTIME_CLASS(CQuickCompareChildFrame), // 自定义 MDI 子框架
-		RUNTIME_CLASS(CQuickCompareView));
-	if (!pDocTemplate)
-		return FALSE;
-	AddDocTemplate(pDocTemplate);
+    // 注册应用程序的文档模板。  文档模板
+    // 将用作文档、框架窗口和视图之间的连接
+    CMultiDocTemplate* pDocTemplate;
+    pDocTemplate = new CMultiDocTemplate(IDR_QuickCompareTYPE,
+        RUNTIME_CLASS(CQuickCompareDirDoc),
+        RUNTIME_CLASS(CQuickCompareChildFrame), // 自定义 MDI 子框架
+        RUNTIME_CLASS(CQuickCompareDirView));
+    if (!pDocTemplate) {
+        return FALSE;
+    }
+    AddDocTemplate(pDocTemplate);
 
-	// 创建主 MDI 框架窗口
-	CQuickCompareMainFrame* pMainFrame = new CQuickCompareMainFrame;
-	if (!pMainFrame || !pMainFrame->LoadFrame(IDR_MAINFRAME))
-	{
-		delete pMainFrame;
-		return FALSE;
-	}
-	m_pMainWnd = pMainFrame;
+    // 创建主 MDI 框架窗口
+    CQuickCompareMainFrame* pMainFrame = new CQuickCompareMainFrame;
+    if (!pMainFrame || !pMainFrame->LoadFrame(IDR_MAINFRAME)) {
+        delete pMainFrame;
+        return FALSE;
+    }
+    m_pMainWnd = pMainFrame;
 
-	// 仅当具有后缀时才调用 DragAcceptFiles
-	//  在 MDI 应用程序中，这应在设置 m_pMainWnd 之后立即发生
-	// 启用拖/放
-	m_pMainWnd->DragAcceptFiles();
+    // 仅当具有后缀时才调用 DragAcceptFiles
+    //  在 MDI 应用程序中，这应在设置 m_pMainWnd 之后立即发生
+    // 启用拖/放
+    m_pMainWnd->DragAcceptFiles();
 
-	// 分析标准 shell 命令、DDE、打开文件操作的命令行
-	CCommandLineInfo cmdInfo;
-	ParseCommandLine(cmdInfo);
+    // 分析标准 shell 命令、DDE、打开文件操作的命令行
+    CCommandLineInfo cmdInfo;
+    ParseCommandLine(cmdInfo);
 
-	// 启用“DDE 执行”
-	EnableShellOpen();
-	RegisterShellFileTypes(TRUE);
+    // 启用“DDE 执行”
+    EnableShellOpen();
+    RegisterShellFileTypes(TRUE);
 
 
-	// 调度在命令行中指定的命令。  如果
-	// 用 /RegServer、/Register、/Unregserver 或 /Unregister 启动应用程序，则返回 FALSE。
-	if (!ProcessShellCommand(cmdInfo))
-		return FALSE;
-	// 主窗口已初始化，因此显示它并对其进行更新
-	pMainFrame->ShowWindow(SW_SHOWMAXIMIZED);
-	pMainFrame->UpdateWindow();
+    // 调度在命令行中指定的命令。  如果
+    // 用 /RegServer、/Register、/Unregserver 或 /Unregister 启动应用程序，则返回 FALSE。
+    if (!ProcessShellCommand(cmdInfo)) {
+        return FALSE;
+    }
+    // 主窗口已初始化，因此显示它并对其进行更新
+    pMainFrame->ShowWindow(SW_SHOWMAXIMIZED);
+    pMainFrame->UpdateWindow();
 
-	return TRUE;
+    return TRUE;
 }
 
 int CQuickCompareApp::ExitInstance()
@@ -230,4 +231,46 @@ void CQuickCompareApp::SaveCustomState()
 // CQuickCompareApp 消息处理程序
 
 
+
+
+
+void CQuickCompareApp::OnFileNew()
+{
+    // TODO:  在此添加命令处理程序代码
+}
+
+
+
+void CQuickCompareApp::OnFileOpen()
+{
+    /*
+	CFileDialog dlgFile(TRUE, NULL, NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, NULL, NULL, 0);
+
+	CString title;
+
+	CString strFilter;
+	CString strDefault;
+
+	// append the "*.*" all files filter
+	CString allFilter;
+	VERIFY(allFilter.LoadString(AFX_IDS_ALLFILTER));
+	strFilter += allFilter;
+	strFilter += (TCHAR)'\0';   // next string please
+	strFilter += _T("*.*");
+	strFilter += (TCHAR)'\0';   // last string
+	dlgFile.m_ofn.nMaxCustFilter++;
+
+	dlgFile.m_ofn.lpstrFilter = strFilter;
+	dlgFile.m_ofn.lpstrTitle = title;
+	dlgFile.m_ofn.lpstrFile = fileName.GetBuffer(_MAX_PATH);
+    
+
+	INT_PTR nResult = dlgFile.DoModal();
+	fileName.ReleaseBuffer();
+    */
+
+    this->OpenDocumentFile(_T("F:\\dev\\github.com\\libbylg\\QuickCompare"));
+
+	return;
+}
 

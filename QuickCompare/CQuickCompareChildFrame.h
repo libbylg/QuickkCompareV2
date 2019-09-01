@@ -4,6 +4,7 @@
 
 // CQuickCompareChildFrame.h : CQuickCompareChildFrame 类的接口
 //
+class CQuickCompareView;
 
 class CQuickCompareChildFrame : public CMDIChildWndEx
 {
@@ -14,13 +15,15 @@ public:
 // 特性
 protected:
 	CSplitterWndEx m_wndSplitter;
+
 public:
+    CQuickCompareView* m_pView;
 
 // 操作
 public:
 
 // 重写
-	public:
+public:
 	virtual BOOL OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext);
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 

@@ -101,6 +101,10 @@
   <ItemGroup>
     <ClInclude Include="ClassView.h" />
     <ClInclude Include="CQuickCompareChildFrame.h" />
+    <ClInclude Include="CQuickCompareDirDoc.h" />
+    <ClInclude Include="CQuickCompareDirView.h" />
+    <ClInclude Include="CQuickCompareFileDoc.h" />
+    <ClInclude Include="CQuickCompareFileView.h" />
     <ClInclude Include="CQuickCompareMainFrame.h" />
     <ClInclude Include="FileView.h" />
     <ClInclude Include="OutputWnd.h" />
@@ -112,11 +116,16 @@
     <ClInclude Include="SplitterControl.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="Utils.h" />
     <ClInclude Include="ViewTree.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ClassView.cpp" />
     <ClCompile Include="CQuickCompareChildFrame.cpp" />
+    <ClCompile Include="CQuickCompareDirDoc.cpp" />
+    <ClCompile Include="CQuickCompareDirView.cpp" />
+    <ClCompile Include="CQuickCompareFileDoc.cpp" />
+    <ClCompile Include="CQuickCompareFileView.cpp" />
     <ClCompile Include="CQuickCompareMainFrame.cpp" />
     <ClCompile Include="FileView.cpp" />
     <ClCompile Include="OutputWnd.cpp" />
@@ -129,6 +138,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Utils.cpp" />
     <ClCompile Include="ViewTree.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -171,7 +181,7 @@
   </ImportGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties RESOURCE_FILE="QuickkCompare.rc" />
+      <UserProperties RESOURCE_FILE="" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

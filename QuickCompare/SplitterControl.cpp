@@ -57,7 +57,7 @@ BOOL CSplitterControl::Create(DWORD dwStaticStyle, const CRect& rect, CWnd* pPar
     m_hCursor = ::LoadCursor(NULL, m_dwSplitterStyle&SPS_VERTICAL?IDC_SIZEWE:IDC_SIZENS);
 
     //  just create the static(no title)
-    return (CStatic::Create("", (dwStaticStyle | SS_NOTIFY | WS_CHILD), rect, pParent, nID));
+    return (CStatic::Create(_T(""), (dwStaticStyle | SS_NOTIFY | WS_CHILD), rect, pParent, nID));
 }
 
 void CSplitterControl::OnMouseMove(UINT nFlags, CPoint point) 

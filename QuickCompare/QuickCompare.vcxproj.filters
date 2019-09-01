@@ -57,6 +57,21 @@
     <ClInclude Include="CQuickCompareView.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="CQuickCompareDirView.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CQuickCompareFileView.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CQuickCompareDirDoc.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CQuickCompareFileDoc.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -93,6 +108,21 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="CQuickCompareView.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CQuickCompareDirView.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CQuickCompareFileView.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CQuickCompareDirDoc.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CQuickCompareFileDoc.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

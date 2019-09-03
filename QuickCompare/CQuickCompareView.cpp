@@ -31,7 +31,7 @@ END_MESSAGE_MAP()
 CQuickCompareView::CQuickCompareView()
 {
 	// TODO:  在此处添加构造代码
-
+    printf("222");
 }
 
 CQuickCompareView::~CQuickCompareView()

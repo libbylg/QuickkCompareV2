@@ -24,8 +24,8 @@
 BEGIN_MESSAGE_MAP(CQuickCompareApp, CWinAppEx)
 	ON_COMMAND(ID_APP_ABOUT, &CQuickCompareApp::OnAppAbout)
 	// 基于文件的标准文档命令
-	ON_COMMAND(ID_FILE_NEW, &CQuickCompareApp::OnFileNew)
-	ON_COMMAND(ID_FILE_OPEN, &CQuickCompareApp::OnFileOpen)
+	ON_COMMAND(ID_FILE_NEW, &CWinAppEx::OnFileNew)
+	ON_COMMAND(ID_FILE_OPEN, &CWinAppEx::OnFileOpen)
 END_MESSAGE_MAP()
 
 
@@ -116,9 +116,12 @@ BOOL CQuickCompareApp::InitInstance()
     // 将用作文档、框架窗口和视图之间的连接
     CMultiDocTemplate* pDocTemplate;
     pDocTemplate = new CMultiDocTemplate(IDR_QuickCompareTYPE,
-        RUNTIME_CLASS(CQuickCompareDirDoc),
+        RUNTIME_CLASS(CQuickCompareDoc),
         RUNTIME_CLASS(CQuickCompareChildFrame), // 自定义 MDI 子框架
-        RUNTIME_CLASS(CQuickCompareDirView));
+        RUNTIME_CLASS(CQuickCompareDirView)
+        //RUNTIME_CLASS(CQuickCompareView)
+        //RUNTIME_CLASS(CEditView)
+        );
     if (!pDocTemplate) {
         return FALSE;
     }
@@ -269,7 +272,7 @@ void CQuickCompareApp::OnFileOpen()
 	fileName.ReleaseBuffer();
     */
 
-    this->OpenDocumentFile(_T("F:\\dev\\github.com\\libbylg\\QuickCompare"));
+    this->OpenDocumentFile(_T("F:\\dev\\github.com\\libbylg\\QuickkCompareV2\\1.qc"));
 
 	return;
 }

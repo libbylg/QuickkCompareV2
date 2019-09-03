@@ -16,6 +16,9 @@ private:
     TFILEITEM*   m_pRootItems[2];
 
 public:
+    TFILEITEM*  GetRootItem(int index);
+
+public:
 	CQuickCompareDirDoc();
 	virtual ~CQuickCompareDirDoc();
 #ifndef _WIN32_WCE

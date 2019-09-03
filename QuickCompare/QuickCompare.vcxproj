@@ -99,6 +99,8 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CDirDiffCtrl.h" />
+    <ClInclude Include="CDirListCtrl.h" />
     <ClInclude Include="ClassView.h" />
     <ClInclude Include="CQuickCompareChildFrame.h" />
     <ClInclude Include="CQuickCompareDirDoc.h" />
@@ -120,6 +122,8 @@
     <ClInclude Include="ViewTree.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CDirDiffCtrl.cpp" />
+    <ClCompile Include="CDirListCtrl.cpp" />
     <ClCompile Include="ClassView.cpp" />
     <ClCompile Include="CQuickCompareChildFrame.cpp" />
     <ClCompile Include="CQuickCompareDirDoc.cpp" />

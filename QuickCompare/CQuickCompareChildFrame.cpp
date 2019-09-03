@@ -31,17 +31,18 @@ CQuickCompareChildFrame::~CQuickCompareChildFrame()
 {
 }
 
-BOOL CQuickCompareChildFrame::OnCreateClient(LPCREATESTRUCT /*lpcs*/, CCreateContext* pContext)
-{
+//BOOL CQuickCompareChildFrame::OnCreateClient(LPCREATESTRUCT /*lpcs*/, CCreateContext* pContext)
+//{
 //	return m_wndSplitter.Create(this,
 //		2, 2,			// TODO:  调整行数和列数
 //		CSize(10, 10),	// TODO:  调整最小窗格大小
 //		pContext);
-
-        m_pView = new CQuickCompareDirView();
-
-    return TRUE;
-}
+//
+//    //m_pView = new CQuickCompareDirView();
+//    //m_pView->Create();
+//
+//    return TRUE;
+//}
 
 BOOL CQuickCompareChildFrame::PreCreateWindow(CREATESTRUCT& cs)
 {

@@ -16,15 +16,12 @@ public:
 protected:
 	CSplitterWndEx m_wndSplitter;
 
-public:
-    CQuickCompareView* m_pView;
-
 // 操作
 public:
 
 // 重写
 public:
-	virtual BOOL OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext);
+	//virtual BOOL OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext);
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 
 // 实现

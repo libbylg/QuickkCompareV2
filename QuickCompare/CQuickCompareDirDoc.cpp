@@ -15,8 +15,9 @@ CQuickCompareDirDoc::CQuickCompareDirDoc()
 
 BOOL CQuickCompareDirDoc::OnNewDocument()
 {
-	if (!CDocument::OnNewDocument())
-		return FALSE;
+    if (!CDocument::OnNewDocument()) {
+        return FALSE;
+    }
 	return TRUE;
 }
 
@@ -35,9 +36,9 @@ BOOL CQuickCompareDirDoc::OnOpenDocument(LPCTSTR lpszPathName)
 
     //  Éú³É TFILEITEM
     for (int i = 0; i < 2; i++) {
-        if (strDirs[i].IsEmpty()) {
-            continue;
-        }
+        //if (strDirs[i].IsEmpty()) {
+        //    continue;
+        //}
         m_pRootItems[i] = new TFILEITEM(strDirs[i], TRUE);
     }
 
@@ -91,5 +92,9 @@ void CQuickCompareDirDoc::Serialize(CArchive& ar)
 }
 #endif
 
+TFILEITEM*  CQuickCompareDirDoc::GetRootItem(int index)
+{
+    return this->m_pRootItems[index];
+}
 
 // CQuickCompareDirDoc ÃüÁî

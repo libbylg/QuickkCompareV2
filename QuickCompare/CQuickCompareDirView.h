@@ -3,25 +3,34 @@
 
 #include "CQuickCompareView.h"
 #include "SplitterControl.h"
+#include "CDirDiffCtrl.h"
+#include "CDirListCtrl.h"
 
 // CQuickCompareDirView
-
+#define IDC_DIRLIST_LEFT    1001
+#define IDC_DIRLIST_RIGHT   1002
+#define IDC_DIRDIFF         1003
 class CQuickCompareDirView : public CQuickCompareView
 {
-	DECLARE_DYNAMIC(CQuickCompareDirView)
+	DECLARE_DYNCREATE(CQuickCompareDirView)
 
 private:
-    CSplitterControl* m_pSplitter;
-    CListCtrl*        m_pDirLists[2];
+    CDirListCtrl*     m_pDirLists[2];
+    CDirDiffCtrl*     m_pDirDiffCtrl;
 
 public:
 	CQuickCompareDirView();
 	virtual ~CQuickCompareDirView();
+private:
+    void Relayout();
 
 protected:
 	DECLARE_MESSAGE_MAP()
 public:
     afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
+    virtual void OnInitialUpdate();
+    afx_msg void OnSize(UINT nType, int cx, int cy);
+    afx_msg void GetDispInfo(NMHDR* pNMHDR, LRESULT* pResult);
 };
 
 

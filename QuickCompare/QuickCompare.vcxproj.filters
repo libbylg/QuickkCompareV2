@@ -78,6 +78,9 @@
     <ClInclude Include="CDirListCtrl.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="CMemoryDC.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -135,6 +138,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="CDirListCtrl.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CMemoryDC.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

@@ -18,7 +18,8 @@ IMPLEMENT_DYNCREATE(CQuickCompareDirView, CQuickCompareView)
 BEGIN_MESSAGE_MAP(CQuickCompareDirView, CQuickCompareView)
     ON_WM_CREATE()
     ON_WM_SIZE()
-    ON_NOTIFY(LVN_GETDISPINFO, IDC_DIRLIST_LEFT, GetDispInfo)
+    ON_NOTIFY(LVN_GETDISPINFO, IDC_DIRLIST_LEFT, GetDisplayInfo)
+    ON_NOTIFY(LVN_GETDISPINFO, IDC_DIRLIST_RIGHT, GetDisplayInfo)
 END_MESSAGE_MAP()
 
 CQuickCompareDirView::CQuickCompareDirView()
@@ -31,8 +32,15 @@ CQuickCompareDirView::~CQuickCompareDirView()
 }
 
 
-void CQuickCompareDirView::GetDispInfo(NMHDR* pNMHDR, LRESULT* pResult)
+void CQuickCompareDirView::GetDisplayInfo(NMHDR* pNMHDR, LRESULT* pResult)
 {
+    NMLVDISPINFO* pDispInfo = reinterpret_cast<NMLVDISPINFO*>(pNMHDR);
+    CQuickCompareDirDoc* pDoc = (CQuickCompareDirDoc*)this->GetDocument();
+
+    int iRootIndex = (IDC_DIRLIST_LEFT == pNMHDR->idFrom)?0:1;
+    TFILEITEM* pRootItem = pDoc->GetRootItem(iRootIndex);
+    TFILEITEM* pDispItem = pRootItem->GetItem(pDispInfo->item.iItem);
+    pDispInfo->item.pszText = (LPTSTR)((LPCTSTR)(pDispItem->strName));
 }
 
 
@@ -48,17 +56,18 @@ int CQuickCompareDirView::OnCreate(LPCREATESTRUCT lpCreateStruct)
     this->m_pDirDiffCtrl->Create(0, rcRect, this, 999);
 
     // TODO:  在此添加您专用的创建代码
-    INT iID = 1000;
+    INT iIDs[] = {IDC_DIRLIST_LEFT, IDC_DIRLIST_RIGHT};
     for (int i = 0; i < 2; i++) {
         CDirListCtrl* pList = new CDirListCtrl();
         DWORD dwStyle = WS_CHILD | WS_VISIBLE | WS_BORDER | LVS_REPORT | LVS_EDITLABELS | LVS_SINGLESEL | LVS_SHOWSELALWAYS;
-        BOOL bRet = pList->Create(dwStyle, rcRect, this, iID++);
+        BOOL bRet = pList->Create(dwStyle, rcRect, this, iIDs[i]);
         ASSERT(TRUE == bRet);
         pList->InsertColumn(0, _T("名称"), LVCFMT_LEFT, 100);
         pList->InsertColumn(1, _T("大小"), LVCFMT_LEFT, 100);
         pList->InsertColumn(2, _T("修改时间"), LVCFMT_LEFT, 100);
         pList->InsertItem(0, _T("Hello"));
         pList->InsertItem(0, _T("World"));
+        pList->SetExtendedStyle(LVS_EX_FULLROWSELECT);
         this->m_pDirLists[i] = pList;
     }
 
@@ -73,7 +82,8 @@ void CQuickCompareDirView::OnInitialUpdate()
     CQuickCompareDirDoc* pDoc = (CQuickCompareDirDoc*)this->GetDocument();
     for (int i = 0; i < 2; i++) {
         TFILEITEM* pItem = pDoc->GetRootItem(i);
-        this->m_pDirLists[i]->SetItemCountEx(pItem->dwChildsCount);
+        DWORD dwTotal = pItem->GetTotal();
+        this->m_pDirLists[i]->SetItemCountEx(dwTotal);
         this->m_pDirLists[i]->Invalidate();
     }
 

@@ -2,10 +2,9 @@
 #define __CQuickCompareDirDoc_H_
 
 #include "CQuickCompareDoc.h"
+#include "Utils.h"
 
 // CQuickCompareDirDoc ÎÄµµ
-
-struct TFILEITEM;
 
 
 class CQuickCompareDirDoc : public CQuickCompareDoc
@@ -13,7 +12,7 @@ class CQuickCompareDirDoc : public CQuickCompareDoc
 	DECLARE_DYNCREATE(CQuickCompareDirDoc)
 
 private:
-    TFILEITEM*   m_pRootItems[2];
+    TFILEITEM   m_pRootItems[2];
 
 public:
     TFILEITEM*  GetRootItem(int index);

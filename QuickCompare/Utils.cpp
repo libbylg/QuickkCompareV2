@@ -72,7 +72,8 @@ void TFILEITEM::ScanChilds(DWORD dwMaxDeep)
 
     //  如果还可以继续深入，才需要对本层进行扫描
     CFileFind fd;
-    BOOL bFound = fd.FindFile(this->GetFullPath() + "/*");
+    CString strPattern = this->GetFullPath() + "\\*";
+    BOOL bFound = fd.FindFile(strPattern);
     while (bFound) {
         bFound = fd.FindNextFile();
         if (fd.IsDots()) {
@@ -81,8 +82,104 @@ void TFILEITEM::ScanChilds(DWORD dwMaxDeep)
 
         TFILEITEM* pItem = this->AppendChild(new TFILEITEM(fd.GetFileName(), fd.IsDirectory()));
         ASSERT(NULL != pItem);
-        if (dwMaxDeep > 1) {
-            pItem->ScanChilds(dwMaxDeep - 1);
+        if (fd.IsDirectory()) {
+            if (dwMaxDeep > 1) {
+                pItem->ScanChilds(dwMaxDeep - 1);
+            }
         }
     }
 }
+
+TFILEITEM* TFILEITEM::GetItem(DWORD index)
+{
+    if (0 == index) {
+        return this;
+    }
+
+    TFILEITEM* pItem = this;
+    DWORD dwPos = 0;
+    while (dwPos < index) {
+
+        //  如果有子节点，那么深入查找子节点
+        if (pItem->dwChildsCount > 0) {
+            pItem = pItem->pChilds;
+            dwPos++;
+            continue;
+        }
+
+        //  如果pItem已经 最后一个元素了，那么回退到父亲节点
+        while ((pItem != this) && (pItem->pNext == pItem->pParent->pChilds)) {
+            pItem = pItem->pParent;
+        }
+
+        //  如果回退到顶点后，说明扫描结束了
+        if (pItem == this) {
+            return NULL;
+        }
+
+        //  如果连续回退之后，节点有效，而且不是父节点的最后一个节点，那么游标指向该下一个节点
+        pItem = pItem->pNext;
+        dwPos++;
+    }
+
+    return pItem;
+}
+
+DWORD       TFILEITEM::GetTotal()
+{
+    DWORD dwTotal = 1;  //  自己也计算在内
+    TFILEITEM* pItem = this;
+    DWORD dwPos = 0;
+    while (NULL != pItem) {
+
+        //  如果有子节点，那么深入查找子节点
+        if (pItem->dwChildsCount > 0) {
+            dwTotal += pItem->dwChildsCount;
+            pItem = pItem->pChilds;
+            continue;
+        }
+        
+        //  如果pItem已经 最后一个元素了，那么回退到父亲节点
+        while ((pItem != this) && (pItem->pNext == pItem->pParent->pChilds)) {
+            pItem = pItem->pParent;
+        }
+
+        if (pItem == this) {
+            return dwTotal;
+        }
+
+        //  如果连续回退之后，节点有效，而且不是父节点的最后一个节点，那么游标指向该下一个节点
+        pItem = pItem->pNext;
+    }
+
+    return dwTotal;
+}
+
+
+
+CString CPathUtils::DirName(const CString& path)
+{
+    int pos = path.ReverseFind(_T('\\'));
+    if (pos < 0) {
+        pos = path.ReverseFind(_T('/'));
+        if (pos < 0) {
+            return path;
+        }
+    }
+
+    return path.Left(pos);
+}
+ 
+CString CPathUtils::BaseName(const CString& path)
+{
+    int pos = path.ReverseFind(_T('\\'));
+    if (pos < 0) {
+        pos = path.ReverseFind(_T('/'));
+        if (pos < 0) {
+            return path;
+        }
+    }
+
+    return path.Mid(pos + 1);
+}
+

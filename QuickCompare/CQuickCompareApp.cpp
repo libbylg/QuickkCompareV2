@@ -116,7 +116,7 @@ BOOL CQuickCompareApp::InitInstance()
     // 将用作文档、框架窗口和视图之间的连接
     CMultiDocTemplate* pDocTemplate;
     pDocTemplate = new CMultiDocTemplate(IDR_QuickCompareTYPE,
-        RUNTIME_CLASS(CQuickCompareDoc),
+        RUNTIME_CLASS(CQuickCompareDirDoc),
         RUNTIME_CLASS(CQuickCompareChildFrame), // 自定义 MDI 子框架
         RUNTIME_CLASS(CQuickCompareDirView)
         //RUNTIME_CLASS(CQuickCompareView)
@@ -143,6 +143,7 @@ BOOL CQuickCompareApp::InitInstance()
     // 分析标准 shell 命令、DDE、打开文件操作的命令行
     CCommandLineInfo cmdInfo;
     ParseCommandLine(cmdInfo);
+    cmdInfo.m_nShellCommand = CCommandLineInfo::FileNothing;
 
     // 启用“DDE 执行”
     EnableShellOpen();
@@ -154,6 +155,7 @@ BOOL CQuickCompareApp::InitInstance()
     if (!ProcessShellCommand(cmdInfo)) {
         return FALSE;
     }
+
     // 主窗口已初始化，因此显示它并对其进行更新
     pMainFrame->ShowWindow(SW_SHOWMAXIMIZED);
     pMainFrame->UpdateWindow();

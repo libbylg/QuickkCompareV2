@@ -30,7 +30,7 @@ public:
     afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
     virtual void OnInitialUpdate();
     afx_msg void OnSize(UINT nType, int cx, int cy);
-    afx_msg void GetDispInfo(NMHDR* pNMHDR, LRESULT* pResult);
+    afx_msg void GetDisplayInfo(NMHDR* pNMHDR, LRESULT* pResult);
 };
 
 

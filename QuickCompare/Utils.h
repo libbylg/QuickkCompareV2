@@ -27,6 +27,14 @@ struct TFILEITEM
     CString     GetFullPath();
     TFILEITEM*  AppendChild(TFILEITEM* pItem);
     void        ScanChilds(DWORD dwMaxDeep);
+    TFILEITEM*  GetItem(DWORD index);
+    DWORD       GetTotal();
+};
+
+struct CPathUtils
+{
+    static CString DirName(const CString& path);
+    static CString BaseName(const CString& path);
 };
 
 

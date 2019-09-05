@@ -28,24 +28,23 @@ BOOL CQuickCompareDirDoc::OnOpenDocument(LPCTSTR lpszPathName)
     CString strPathName = lpszPathName;
     int pos = strPathName.Find(_T(";"), 0);
     if (pos < 0) {
-        strDirs[0] = lpszPathName;
+        strDirs[0] = CPathUtils::DirName(lpszPathName);
     } else {
-        strDirs[0] = strPathName.Left(pos).Trim();
-        strDirs[1] = strPathName.Mid(pos +1).Trim();
+        strDirs[0] = CPathUtils::DirName(strPathName.Left(pos).Trim());
+        strDirs[1] = CPathUtils::DirName(strPathName.Mid(pos +1).Trim());
     }
 
     //  …˙≥… TFILEITEM
     for (int i = 0; i < 2; i++) {
-        //if (strDirs[i].IsEmpty()) {
-        //    continue;
-        //}
-        m_pRootItems[i] = new TFILEITEM(strDirs[i], TRUE);
+        m_pRootItems[i].strName = strDirs[i];
+        m_pRootItems[i].dwFlag |= ITEMFLAG_DIR;
     }
 
     for (int i = 0; i < 2; i++) {
-        if (NULL != m_pRootItems[i]) {
-            m_pRootItems[i]->ScanChilds(1);
+        if (m_pRootItems[i].strName.IsEmpty()) {
+            continue;
         }
+        m_pRootItems[i].ScanChilds(1);
     }
 
     return TRUE;
@@ -94,7 +93,7 @@ void CQuickCompareDirDoc::Serialize(CArchive& ar)
 
 TFILEITEM*  CQuickCompareDirDoc::GetRootItem(int index)
 {
-    return this->m_pRootItems[index];
+    return this->m_pRootItems + index;
 }
 
 // CQuickCompareDirDoc √¸¡Ó

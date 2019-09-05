@@ -14,25 +14,19 @@ CDirListCtrl::~CDirListCtrl()
 BOOL CDirListCtrl::Create(DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UINT nID)
 {
     //dwStyle |= LVS_OWNERDRAWFIXED | LVS_REPORT | LVS_OWNERDATA;
+    dwStyle |= (LVS_REPORT | LVS_OWNERDATA);
     return CListCtrl::Create(dwStyle, rect, pParentWnd, nID);
 }
 
-DWORD CDirListCtrl::SetExtendedStyle( DWORD dwNewStyle )
-
+DWORD CDirListCtrl::SetExtendedStyle(DWORD dwNewStyle)
 {
 
-      if ( dwNewStyle & LVS_EX_CHECKBOXES )
+    //if (dwNewStyle & LVS_EX_CHECKBOXES) {
+    //    dwNewStyle &= ~LVS_EX_CHECKBOXES;
+    //    dwNewStyle &= ~LVS_EX_GRIDLINES;
+    //}
 
-      {
-
-            dwNewStyle &=~LVS_EX_CHECKBOXES;
-
-            dwNewStyle &=~LVS_EX_GRIDLINES;
-
-      }
-
-      return __super::SetExtendedStyle(dwNewStyle);
-
+    return __super::SetExtendedStyle(dwNewStyle);
 }
 
 void CDirListCtrl::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)

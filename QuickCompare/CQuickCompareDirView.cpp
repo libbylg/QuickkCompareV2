@@ -65,8 +65,6 @@ int CQuickCompareDirView::OnCreate(LPCREATESTRUCT lpCreateStruct)
         pList->InsertColumn(0, _T("名称"), LVCFMT_LEFT, 100);
         pList->InsertColumn(1, _T("大小"), LVCFMT_LEFT, 100);
         pList->InsertColumn(2, _T("修改时间"), LVCFMT_LEFT, 100);
-        pList->InsertItem(0, _T("Hello"));
-        pList->InsertItem(0, _T("World"));
         pList->SetExtendedStyle(LVS_EX_FULLROWSELECT);
         this->m_pDirLists[i] = pList;
     }

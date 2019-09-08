@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "CDirListCtrl.h"
+#include "CMemoryDC.h"
 
 
 CDirListCtrl::CDirListCtrl()
@@ -11,10 +12,12 @@ CDirListCtrl::~CDirListCtrl()
 {
 }
 
-BOOL CDirListCtrl::Create(DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UINT nID)
+BOOL CDirListCtrl::Create(DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UINT nID, struct ITreeSource* pSource)
 {
+    ASSERT(NULL != pSource);
+    this->m_pSource = pSource;
     //dwStyle |= LVS_OWNERDRAWFIXED | LVS_REPORT | LVS_OWNERDATA;
-    dwStyle |= (LVS_REPORT | LVS_OWNERDATA);
+    dwStyle |= (LVS_REPORT | LVS_OWNERDATA | LVS_OWNERDRAWFIXED);
     return CListCtrl::Create(dwStyle, rect, pParentWnd, nID);
 }
 
@@ -31,6 +34,8 @@ DWORD CDirListCtrl::SetExtendedStyle(DWORD dwNewStyle)
 
 void CDirListCtrl::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
 {
+
+    this->m_pSource->DrawItem(this, lpDrawItemStruct);
     //    typedef struct tagDRAWITEMSTRUCT {
     //    UINT        CtlType;
     //    UINT        CtlID;
@@ -45,17 +50,16 @@ void CDirListCtrl::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
     //变量定义
 
     //CRect rcItem = lpDrawItemStruct->rcItem;
-
+    //
     //CDC * pDC = CDC::FromHandle(lpDrawItemStruct->hDC);
 
     //CMemoryDC BufferDC(pDC, rcItem);
 
-    ////获取属性
-
+    //获取属性
     //INT nItemID = lpDrawItemStruct->itemID;
-    //INT nColumnCount = m_SkinHeaderCtrl.GetItemCount();
+    //INT nColumnCount = this->GetHeaderCtrl()->GetItemCount();
 
-    ////绘画区域
+    //绘画区域
     //CRect rcClipBox;
     //BufferDC.GetClipBox(&rcClipBox);
 
@@ -63,9 +67,9 @@ void CDirListCtrl::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
     //BufferDC.SetBkMode(TRANSPARENT);
     //BufferDC.SetTextColor(m_colNormalText);
     //BufferDC.SelectObject(GetCtrlFont());
-    //BufferDC->FillSolidRect(&rcItem, m_colBack);
+    //pDC->FillSolidRect(&rcItem, RGB(120,250,110));
 
-    ////绘画焦点
+    //绘画焦点
     //if (lpDrawItemStruct->itemState&ODS_SELECTED) {
     //    if (m_pSelectImg != NULL && !m_pSelectImg->IsNull()) {
     //        m_pSelectImg->Draw(&BufferDC, rcItem);
@@ -134,6 +138,6 @@ VOID CDirListCtrl::DrawReportItem(CDC * pDC, INT nItem, CRect & rcSubItem, INT n
     //    }
     //}
 
-    //pDC->DrawText(szString, lstrlen(szString), &rcSubItem, DT_VCENTER | DT_SINGLELINE | DT_END_ELLIPSIS);
-    //return;
+    pDC->DrawText(szString, lstrlen(szString), &rcSubItem, DT_VCENTER | DT_SINGLELINE | DT_END_ELLIPSIS);
+    return;
 }

@@ -24,7 +24,7 @@ struct TFILEITEM
     CString     strNames[2];    //  当有多个视图时，会存在多个名称
 
     TFILEITEM();
-    TFILEITEM(const CString& strName, BOOL bDir);
+    TFILEITEM(BOOL bDir, const CString& strLeft, const CString& strRight);
     CString     GetFullPath(int iSide);
     TFILEITEM*  AppendChild(TFILEITEM* pItem);
     void        ScanChilds(DWORD dwMaxDeep, int iSide);

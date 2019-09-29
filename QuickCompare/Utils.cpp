@@ -18,18 +18,19 @@ TFILEITEM::TFILEITEM()
     this->pAlign = NULL;
 }
 
-//TFILEITEM::TFILEITEM(const CString& strName, BOOL bDir)
-//{
-//    this->pPrev = this;
-//    this->pNext = this;
-//    this->pParent = NULL;
-//    this->pChilds = NULL;
-//    this->dwChildsCount = 0;
-//    this->dwFlag = (bDir?ITEMFLAG_DIR:ITEMFLAG_DEFAULT);
-//    this->dwLevel = 0;
-//    this->strName = strName;
-//    this->pAlign = NULL;
-//}
+TFILEITEM::TFILEITEM(BOOL bDir, const CString& strLeft, const CString& strRight)
+{
+    this->pPrev = this;
+    this->pNext = this;
+    this->pParent = NULL;
+    this->pChilds = NULL;
+    this->dwChildsCount = 0;
+    this->dwFlag = (bDir?ITEMFLAG_DIR:ITEMFLAG_DEFAULT);
+    this->dwLevel = 0;
+    this->strNames[0] = strLeft;
+    this->strNames[1] = strRight;
+    this->pAlign = NULL;
+}
 
 CString TFILEITEM::GetFullPath(int iSide)
 {
@@ -80,7 +81,7 @@ void TFILEITEM::ScanChilds(DWORD dwMaxDeep, int iSide)
             continue;
         }
 
-        TFILEITEM* pItem = this->AppendChild(new TFILEITEM(fd.GetFileName(), fd.IsDirectory()));
+        TFILEITEM* pItem = this->AppendChild(new TFILEITEM(fd.IsDirectory(), fd.GetFileName(), fd.GetFileName()));
         ASSERT(NULL != pItem);
         if (fd.IsDirectory()) {
             if (dwMaxDeep > 1) {

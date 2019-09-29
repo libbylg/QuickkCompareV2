@@ -24,6 +24,8 @@ CDirDiffCtrl::~CDirDiffCtrl()
 
 
 BEGIN_MESSAGE_MAP(CDirDiffCtrl, CStatic)
+    	ON_NOTIFY(LVN_GETDISPINFO, IDC_DIRLIST_LEFT, &CDirDiffCtrl::OnGetdispinfoList)
+    	ON_NOTIFY(LVN_GETDISPINFO, IDC_DIRLIST_RIGHT, &CDirDiffCtrl::OnGetdispinfoList)
 END_MESSAGE_MAP()
 
 
@@ -54,7 +56,7 @@ BOOL    CDirDiffCtrl::Create(DWORD dwStaticStyle, const CRect& rect, CWnd* pPare
     INT iIDs[] = {IDC_DIRLIST_LEFT, IDC_DIRLIST_RIGHT};
     for (int i = 0; i < 2; i++) {
         CListCtrl* pList = m_tDirLists + i;
-        DWORD dwStyle = WS_CHILD | WS_VISIBLE | WS_BORDER | LVS_REPORT | LVS_EDITLABELS | LVS_SINGLESEL | LVS_SHOWSELALWAYS;
+        DWORD dwStyle = WS_CHILD | WS_VISIBLE | WS_BORDER | LVS_REPORT | LVS_EDITLABELS | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_OWNERDATA;
         BOOL bRet = pList->Create(dwStyle, rcList[i], this, iIDs[i]);
         if (!bRet) {
             ASSERT(TRUE == bRet);
@@ -92,5 +94,28 @@ DWORD CDirDiffCtrl::SetExtendedStyle(_In_ DWORD dwNewStyle)
     dwRet = m_tDirLists[0].SetExtendedStyle(dwNewStyle);
     dwRet = m_tDirLists[1].SetExtendedStyle(dwNewStyle);
     return dwRet;
+}
+
+
+BOOL CDirDiffCtrl::SetItemCountEx(_In_ int iCount, _In_ DWORD dwFlags)
+{
+    BOOL bRet = m_tDirLists[0].SetItemCountEx(iCount, dwFlags);
+    if (!bRet) {
+        ASSERT(bRet >= 0);
+        return FALSE;
+    }
+
+    bRet = m_tDirLists[1].SetItemCountEx(iCount, dwFlags);
+    if (!bRet) {
+        ASSERT(bRet);
+        return FALSE;
+    }
+
+    return TRUE;
+}
+
+
+void CDirDiffCtrl::OnGetdispinfoList(NMHDR *pNMHDR, LRESULT *pResult)
+{
 }
 

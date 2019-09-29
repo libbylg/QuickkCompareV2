@@ -4,15 +4,39 @@
 #include "stdafx.h"
 #include "CQuickCompareDirDoc.h"
 #include "Utils.h"
-
+#include "IListDelegate.h"
 
 class CDirListDelegate : public IListDelegate
 {
 public:
-    CDirListDelegate();
-    virtual void    GetDispInfo(CListCtrl* pListCtrl, NMHDR* pNMHDR, LRESULT* pResult) = 0;
-    virtual void    DrawItem(CListCtrl* pListCtrl, LPDRAWITEMSTRUCT lpDrawItemStruct) = 0;
+    TFILEITEM* m_pRoot;
+
+public:
+    CDirListDelegate(TFILEITEM* pRoot);
+    virtual void    GetDispInfo(CListCtrl* pListCtrl, NMHDR* pNMHDR, LRESULT* pResult);
+    virtual void    DrawItem(CListCtrl* pListCtrl, LPDRAWITEMSTRUCT lpDrawItemStruct);
 };
+
+CDirListDelegate::CDirListDelegate(TFILEITEM* pRoot)
+{
+    m_pRoot = pRoot;
+}
+
+void    CDirListDelegate::GetDispInfo(CListCtrl* pListCtrl, NMHDR* pNMHDR, LRESULT* pResult)
+{
+    NMLVDISPINFO *pDispInfo = reinterpret_cast<NMLVDISPINFO *>(pNMHDR);
+    LVITEM *pItem = &(pDispInfo)->item;
+    //£¨1£©LVIF_TEXT   ±ØÐëÌî³ä pszText
+    m_pRoot->GetItem(pItem->iItem);
+    //£¨2£©LVIF_IMAGE  ±ØÐëÌî³ä iImage 
+    //£¨3£©LVIF_INDENT ±ØÐëÌî³ä iIndent
+    //£¨4£©LVIF_PARAM  ±ØÐëÌî³ä lParam 
+    //£¨5£©LVIF_STATE  ±ØÐëÌî³ä state
+}
+
+void    CDirListDelegate::DrawItem(CListCtrl* pListCtrl, LPDRAWITEMSTRUCT lpDrawItemStruct)
+{
+}
 
 //DWORD       (*GetColumnCount)(void* ctx);
 //void*       (*GetColumn)(void* ctx, DWORD dwIndex);
@@ -57,15 +81,15 @@ BOOL CQuickCompareDirDoc::OnOpenDocument(LPCTSTR lpszPathName)
 
     //  Éú³É TFILEITEM
     for (int i = 0; i < 2; i++) {
-        m_pRootItems[i].strName = strDirs[i];
-        m_pRootItems[i].dwFlag |= ITEMFLAG_DIR;
+        m_tRootItem.strNames[i] = strDirs[i];
+        m_tRootItem.dwFlag |= ITEMFLAG_DIR;
     }
 
     for (int i = 0; i < 2; i++) {
-        if (m_pRootItems[i].strName.IsEmpty()) {
+        if (m_tRootItem.strNames[i].IsEmpty()) {
             continue;
         }
-        m_pRootItems[i].ScanChilds(1);
+        m_tRootItem.ScanChilds(1, i);
     }
 
     return TRUE;
@@ -112,9 +136,9 @@ void CQuickCompareDirDoc::Serialize(CArchive& ar)
 }
 #endif
 
-TFILEITEM*  CQuickCompareDirDoc::GetRootItem(int index)
+TFILEITEM*  CQuickCompareDirDoc::GetRootItem()
 {
-    return this->m_pRootItems + index;
+    return &(this->m_tRootItem);
 }
 
 // CQuickCompareDirDoc ÃüÁî

@@ -100,7 +100,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CDirDiffCtrl.h" />
-    <ClInclude Include="CDirListCtrl.h" />
+    <ClInclude Include="CTreeListCtrl.h" />
     <ClInclude Include="ClassView.h" />
     <ClInclude Include="CQuickCompareChildFrame.h" />
     <ClInclude Include="CQuickCompareDirDoc.h" />
@@ -109,6 +109,7 @@
     <ClInclude Include="CQuickCompareFileView.h" />
     <ClInclude Include="CQuickCompareMainFrame.h" />
     <ClInclude Include="FileView.h" />
+    <ClInclude Include="IListDelegate.h" />
     <ClInclude Include="OutputWnd.h" />
     <ClInclude Include="PropertiesWnd.h" />
     <ClInclude Include="CQuickCompareApp.h" />
@@ -124,7 +125,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CDirDiffCtrl.cpp" />
-    <ClCompile Include="CDirListCtrl.cpp" />
+    <ClCompile Include="CTreeListCtrl.cpp" />
     <ClCompile Include="ClassView.cpp" />
     <ClCompile Include="CQuickCompareChildFrame.cpp" />
     <ClCompile Include="CQuickCompareDirDoc.cpp" />

@@ -75,10 +75,13 @@
     <ClInclude Include="CDirDiffCtrl.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="CDirListCtrl.h">
+    <ClInclude Include="CMemoryDC.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="CMemoryDC.h">
+    <ClInclude Include="CTreeListCtrl.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="IListDelegate.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -137,10 +140,10 @@
     <ClCompile Include="CDirDiffCtrl.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="CDirListCtrl.cpp">
+    <ClCompile Include="CMemoryDC.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="CMemoryDC.cpp">
+    <ClCompile Include="CTreeListCtrl.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

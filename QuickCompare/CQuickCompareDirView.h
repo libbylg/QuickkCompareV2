@@ -4,7 +4,6 @@
 #include "CQuickCompareView.h"
 #include "SplitterControl.h"
 #include "CDirDiffCtrl.h"
-#include "CDirListCtrl.h"
 
 // CQuickCompareDirView
 #define IDC_DIRLIST_LEFT    1001
@@ -15,8 +14,7 @@ class CQuickCompareDirView : public CQuickCompareView
 	DECLARE_DYNCREATE(CQuickCompareDirView)
 
 private:
-    CDirListCtrl*     m_pDirLists[2];
-    CDirDiffCtrl*     m_pDirDiffCtrl;
+    CDirDiffCtrl    m_tDirDiffCtrl;
 
 public:
 	CQuickCompareDirView();

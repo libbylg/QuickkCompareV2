@@ -12,10 +12,10 @@ class CQuickCompareDirDoc : public CQuickCompareDoc
 	DECLARE_DYNCREATE(CQuickCompareDirDoc)
 
 private:
-    TFILEITEM   m_pRootItems[2];
+    TFILEITEM   m_tRootItem;
 
 public:
-    TFILEITEM*  GetRootItem(int index);
+    TFILEITEM*  GetRootItem();
 
 public:
 	CQuickCompareDirDoc();

@@ -19,14 +19,15 @@ struct TFILEITEM
     DWORD       dwChildsCount;  //  子节点的个数
     DWORD       dwFlag;         //  选项
     DWORD       dwLevel;        //  层级
-    CString     strName;        //  名字
+    //CString     strName;        //  名字
     TFILEITEM*  pAlign;         //  与那一项对齐
+    CString     strNames[2];    //  当有多个视图时，会存在多个名称
 
     TFILEITEM();
     TFILEITEM(const CString& strName, BOOL bDir);
-    CString     GetFullPath();
+    CString     GetFullPath(int iSide);
     TFILEITEM*  AppendChild(TFILEITEM* pItem);
-    void        ScanChilds(DWORD dwMaxDeep);
+    void        ScanChilds(DWORD dwMaxDeep, int iSide);
     TFILEITEM*  GetItem(DWORD index);
     DWORD       GetTotal();
 };

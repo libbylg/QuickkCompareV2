@@ -37,10 +37,10 @@ void CQuickCompareDirView::GetDisplayInfo(NMHDR* pNMHDR, LRESULT* pResult)
     NMLVDISPINFO* pDispInfo = reinterpret_cast<NMLVDISPINFO*>(pNMHDR);
     CQuickCompareDirDoc* pDoc = (CQuickCompareDirDoc*)this->GetDocument();
 
-    int iRootIndex = (IDC_DIRLIST_LEFT == pNMHDR->idFrom)?0:1;
-    TFILEITEM* pRootItem = pDoc->GetRootItem(iRootIndex);
-    TFILEITEM* pDispItem = pRootItem->GetItem(pDispInfo->item.iItem);
-    pDispInfo->item.pszText = (LPTSTR)((LPCTSTR)(pDispItem->strName));
+    //int iRootIndex = (IDC_DIRLIST_LEFT == pNMHDR->idFrom)?0:1;
+    //TFILEITEM* pRootItem = pDoc->GetRootItem();
+    //TFILEITEM* pDispItem = pRootItem->GetItem(pDispInfo->item.iItem);
+    //pDispInfo->item.pszText = (LPTSTR)((LPCTSTR)(pDispItem->strName));
 }
 
 
@@ -51,23 +51,11 @@ int CQuickCompareDirView::OnCreate(LPCREATESTRUCT lpCreateStruct)
     }
 
     CRect rcRect;
-
-    this->m_pDirDiffCtrl = new CDirDiffCtrl();
-    this->m_pDirDiffCtrl->Create(0, rcRect, this, 999);
-
-    // TODO:  在此添加您专用的创建代码
-    INT iIDs[] = {IDC_DIRLIST_LEFT, IDC_DIRLIST_RIGHT};
-    for (int i = 0; i < 2; i++) {
-        CDirListCtrl* pList = new CDirListCtrl();
-        DWORD dwStyle = WS_CHILD | WS_VISIBLE | WS_BORDER | LVS_REPORT | LVS_EDITLABELS | LVS_SINGLESEL | LVS_SHOWSELALWAYS;
-        BOOL bRet = pList->Create(dwStyle, rcRect, this, iIDs[i]);
-        ASSERT(TRUE == bRet);
-        pList->InsertColumn(0, _T("名称"), LVCFMT_LEFT, 100);
-        pList->InsertColumn(1, _T("大小"), LVCFMT_LEFT, 100);
-        pList->InsertColumn(2, _T("修改时间"), LVCFMT_LEFT, 100);
-        pList->SetExtendedStyle(LVS_EX_FULLROWSELECT);
-        this->m_pDirLists[i] = pList;
-    }
+    this->m_tDirDiffCtrl.Create(0, rcRect, this, 999);
+    this->m_tDirDiffCtrl.InsertColumn(0, _T("名称"), LVCFMT_LEFT, 100);
+    this->m_tDirDiffCtrl.InsertColumn(1, _T("大小"), LVCFMT_LEFT, 100);
+    this->m_tDirDiffCtrl.InsertColumn(2, _T("修改时间"), LVCFMT_LEFT, 100);
+    this->m_tDirDiffCtrl.SetExtendedStyle(LVS_EX_FULLROWSELECT);
 
     return 0;
 }

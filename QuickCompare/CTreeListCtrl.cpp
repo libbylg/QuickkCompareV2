@@ -1,27 +1,28 @@
 #include "stdafx.h"
-#include "CDirListCtrl.h"
+#include "CTreeListCtrl.h"
 #include "CMemoryDC.h"
+#include "IListDelegate.h"
 
 
-CDirListCtrl::CDirListCtrl()
+CTreeListCtrl::CTreeListCtrl()
 {
 }
 
 
-CDirListCtrl::~CDirListCtrl()
+CTreeListCtrl::~CTreeListCtrl()
 {
 }
 
-BOOL CDirListCtrl::Create(DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UINT nID, struct ITreeSource* pSource)
+BOOL CTreeListCtrl::Create(DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UINT nID, struct IListDelegate* pDelegate)
 {
-    ASSERT(NULL != pSource);
-    this->m_pSource = pSource;
+    ASSERT(NULL != pDelegate);
+    this->m_pDelegate = pDelegate;
     //dwStyle |= LVS_OWNERDRAWFIXED | LVS_REPORT | LVS_OWNERDATA;
     dwStyle |= (LVS_REPORT | LVS_OWNERDATA | LVS_OWNERDRAWFIXED);
     return CListCtrl::Create(dwStyle, rect, pParentWnd, nID);
 }
 
-DWORD CDirListCtrl::SetExtendedStyle(DWORD dwNewStyle)
+DWORD CTreeListCtrl::SetExtendedStyle(DWORD dwNewStyle)
 {
 
     //if (dwNewStyle & LVS_EX_CHECKBOXES) {
@@ -32,10 +33,9 @@ DWORD CDirListCtrl::SetExtendedStyle(DWORD dwNewStyle)
     return __super::SetExtendedStyle(dwNewStyle);
 }
 
-void CDirListCtrl::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
+void CTreeListCtrl::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
 {
-
-    this->m_pSource->DrawItem(this, lpDrawItemStruct);
+    this->m_pDelegate->DrawItem(this, lpDrawItemStruct);
     //    typedef struct tagDRAWITEMSTRUCT {
     //    UINT        CtlType;
     //    UINT        CtlID;
@@ -100,44 +100,3 @@ void CDirListCtrl::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
     return;
 }
 
-
-//绘画数据
-
-VOID CDirListCtrl::DrawReportItem(CDC * pDC, INT nItem, CRect & rcSubItem, INT nColumnIndex)
-{
-    ////  获取文字
-    //TCHAR szString[256] = TEXT("");
-    //GetItemText(nItem, nColumnIndex, szString, CountArray(szString));
-
-    ////  绘画文字
-    //rcSubItem.left += 5;
-
-    ////  绘制CheckButton
-    //if (nColumnIndex == 0) {
-
-    //    if ((m_pCheckImg != NULL && !m_pCheckImg->IsNull()) && (m_pUnCheckImg != NULL && !m_pUnCheckImg->IsNull())) {
-    //        if (GetCheck(nItem)) {
-    //            m_pCheckImg->DrawImage(pDC, rcSubItem.left + 2, rcSubItem.top + (rcSubItem.Height() - m_pCheckImg->GetHeight()) / 2);
-    //        } else {
-    //            m_pUnCheckImg->DrawImage(pDC, rcSubItem.left + 2, rcSubItem.top + (rcSubItem.Height() - m_pUnCheckImg->GetHeight()) / 2);
-    //        }
-    //        rcSubItem.left += (8 + m_pCheckImg->GetWidth());
-    //    }
-
-    //    CItemImgArray::iterator iter = m_ItemImgArray.begin();
-    //    for (; iter != m_ItemImgArray.end(); ++iter) {
-    //        if (iter->nItem == nItem) {
-    //            CImageEx *pImage = iter->pImage;
-    //            if (pImage != NULL && !pImage->IsNull()) {
-    //                pImage->DrawImage(pDC, rcSubItem.left + 2, rcSubItem.top + (rcSubItem.Height() - pImage->GetHeight()) / 2);
-
-    //                rcSubItem.left += (8 + pImage->GetWidth());
-    //            }
-    //            break;
-    //        }
-    //    }
-    //}
-
-    pDC->DrawText(szString, lstrlen(szString), &rcSubItem, DT_VCENTER | DT_SINGLELINE | DT_END_ELLIPSIS);
-    return;
-}

@@ -18,25 +18,25 @@ TFILEITEM::TFILEITEM()
     this->pAlign = NULL;
 }
 
-TFILEITEM::TFILEITEM(const CString& strName, BOOL bDir)
-{
-    this->pPrev = this;
-    this->pNext = this;
-    this->pParent = NULL;
-    this->pChilds = NULL;
-    this->dwChildsCount = 0;
-    this->dwFlag = (bDir?ITEMFLAG_DIR:ITEMFLAG_DEFAULT);
-    this->dwLevel = 0;
-    this->strName = strName;
-    this->pAlign = NULL;
-}
+//TFILEITEM::TFILEITEM(const CString& strName, BOOL bDir)
+//{
+//    this->pPrev = this;
+//    this->pNext = this;
+//    this->pParent = NULL;
+//    this->pChilds = NULL;
+//    this->dwChildsCount = 0;
+//    this->dwFlag = (bDir?ITEMFLAG_DIR:ITEMFLAG_DEFAULT);
+//    this->dwLevel = 0;
+//    this->strName = strName;
+//    this->pAlign = NULL;
+//}
 
-CString TFILEITEM::GetFullPath()
+CString TFILEITEM::GetFullPath(int iSide)
 {
-    CString strPath = this->strName;
+    CString strPath = this->strNames[iSide];
     TFILEITEM* pParent = this->pParent;
     while (pParent) {
-        strPath = pParent->strName + _T("\\") + strPath;
+        strPath = pParent->strNames[iSide] + _T("\\") + strPath;
     }
 
     return strPath;
@@ -63,7 +63,7 @@ TFILEITEM* TFILEITEM::AppendChild(TFILEITEM* pItem)
 
 
 
-void TFILEITEM::ScanChilds(DWORD dwMaxDeep)
+void TFILEITEM::ScanChilds(DWORD dwMaxDeep, int iSide)
 {
     //  无法继续深入了
     if (dwMaxDeep == 0) {
@@ -72,7 +72,7 @@ void TFILEITEM::ScanChilds(DWORD dwMaxDeep)
 
     //  如果还可以继续深入，才需要对本层进行扫描
     CFileFind fd;
-    CString strPattern = this->GetFullPath() + "\\*";
+    CString strPattern = this->GetFullPath(iSide) + "\\*";
     BOOL bFound = fd.FindFile(strPattern);
     while (bFound) {
         bFound = fd.FindNextFile();
@@ -84,7 +84,7 @@ void TFILEITEM::ScanChilds(DWORD dwMaxDeep)
         ASSERT(NULL != pItem);
         if (fd.IsDirectory()) {
             if (dwMaxDeep > 1) {
-                pItem->ScanChilds(dwMaxDeep - 1);
+                pItem->ScanChilds(dwMaxDeep - 1, iSide);
             }
         }
     }

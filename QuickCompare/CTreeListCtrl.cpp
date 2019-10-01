@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "CTreeListCtrl.h"
 #include "CMemoryDC.h"
-#include "IListDelegate.h"
+#include "Delegate.h"
 
 
 CTreeListCtrl::CTreeListCtrl()

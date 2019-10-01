@@ -6,10 +6,19 @@
 #include "CQuickCompareDirDoc.h"
 #include "Utils.h"
 
-#define DIFF_WIDTH  30
-#define SPLT_WIDTH  3
-
 // CQuickCompareDirView
+
+#define DIFF_WIDTH      30
+#define SPLT_WIDTH      3
+
+#define IDC_DIFF_CTRL   2000
+
+static  void  CompareGetDisplayDelegate(LPVOID pContext, NMHDR* pNMHDR, LRESULT* pResult)
+{
+    struct CompareDelegateContext* pCompareContext = (struct CompareDelegateContext*)pContext;
+    pCompareContext->pView->OnGetDisplayInfo(pCompareContext->nSide, pNMHDR, pResult);
+}
+
 
 IMPLEMENT_DYNCREATE(CQuickCompareDirView, CQuickCompareView)
 
@@ -18,31 +27,15 @@ IMPLEMENT_DYNCREATE(CQuickCompareDirView, CQuickCompareView)
 BEGIN_MESSAGE_MAP(CQuickCompareDirView, CQuickCompareView)
     ON_WM_CREATE()
     ON_WM_SIZE()
-    ON_NOTIFY(LVN_GETDISPINFO, IDC_DIRLIST_LEFT, GetDisplayInfo)
-    ON_NOTIFY(LVN_GETDISPINFO, IDC_DIRLIST_RIGHT, GetDisplayInfo)
 END_MESSAGE_MAP()
 
 CQuickCompareDirView::CQuickCompareDirView()
 {
-    printf("111");
 }
 
 CQuickCompareDirView::~CQuickCompareDirView()
 {
 }
-
-
-void CQuickCompareDirView::GetDisplayInfo(NMHDR* pNMHDR, LRESULT* pResult)
-{
-    NMLVDISPINFO* pDispInfo = reinterpret_cast<NMLVDISPINFO*>(pNMHDR);
-    CQuickCompareDirDoc* pDoc = (CQuickCompareDirDoc*)this->GetDocument();
-
-    //int iRootIndex = (IDC_DIRLIST_LEFT == pNMHDR->idFrom)?0:1;
-    //TFILEITEM* pRootItem = pDoc->GetRootItem();
-    //TFILEITEM* pDispItem = pRootItem->GetItem(pDispInfo->item.iItem);
-    //pDispInfo->item.pszText = (LPTSTR)((LPCTSTR)(pDispItem->strName));
-}
-
 
 int CQuickCompareDirView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
@@ -50,12 +43,17 @@ int CQuickCompareDirView::OnCreate(LPCREATESTRUCT lpCreateStruct)
         return -1;
     }
 
+    //  构造差异视图
     CRect rcRect;
-    this->m_tDirDiffCtrl.Create(0, rcRect, this, 999);
+    this->m_tDirDiffCtrl.Create(0, rcRect, this, IDC_DIFF_CTRL);
     this->m_tDirDiffCtrl.InsertColumn(0, _T("名称"), LVCFMT_LEFT, 100);
     this->m_tDirDiffCtrl.InsertColumn(1, _T("大小"), LVCFMT_LEFT, 100);
     this->m_tDirDiffCtrl.InsertColumn(2, _T("修改时间"), LVCFMT_LEFT, 100);
     this->m_tDirDiffCtrl.SetExtendedStyle(LVS_EX_FULLROWSELECT);
+
+    //  绑定委托对象
+    this->m_tDirDiffCtrl.BindDelegate(0, this->m_tDelegateContext + 0, CompareGetDisplayDelegate);
+    this->m_tDirDiffCtrl.BindDelegate(1, this->m_tDelegateContext + 1, CompareGetDisplayDelegate);
 
     return 0;
 }
@@ -68,11 +66,19 @@ void CQuickCompareDirView::OnInitialUpdate()
     CQuickCompareDirDoc* pDoc = (CQuickCompareDirDoc*)this->GetDocument();
     TFILEITEM* pRoot = pDoc->GetRootItem();
     this->m_tDirDiffCtrl.SetItemCountEx(pRoot->GetTotal());
+    
+    
+    this->m_tDelegateContext[0].pDoc = pDoc;
+    this->m_tDelegateContext[0].pView = this;
+    this->m_tDelegateContext[0].pRoot = pDoc->GetRootItem();
+    this->m_tDelegateContext[0].nSide = 0;
 
+    this->m_tDelegateContext[1].pDoc = pDoc;
+    this->m_tDelegateContext[1].pView = this;
+    this->m_tDelegateContext[1].pRoot = pDoc->GetRootItem();
+    this->m_tDelegateContext[1].nSide = 1;
     this->Relayout();
 }
-
-
 
 
 void CQuickCompareDirView::OnSize(UINT nType, int cx, int cy)
@@ -91,4 +97,16 @@ void CQuickCompareDirView::Relayout()
 
     //  移动窗口
     this->m_tDirDiffCtrl.MoveWindow(&rcClient);
+}
+
+
+void CQuickCompareDirView::OnGetDisplayInfo(INT nSide, NMHDR* pNMHDR, LRESULT* pResult)
+{
+    LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
+    LV_ITEM* pItem= &(pDispInfo)->item;
+
+    //  如果徐哟获取文本
+    if (pItem->mask & LVIF_TEXT) {
+        this->
+    }
 }

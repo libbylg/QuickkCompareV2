@@ -4,39 +4,39 @@
 #include "stdafx.h"
 #include "CQuickCompareDirDoc.h"
 #include "Utils.h"
-#include "IListDelegate.h"
-
-class CDirListDelegate : public IListDelegate
-{
-public:
-    TFILEITEM* m_pRoot;
-
-public:
-    CDirListDelegate(TFILEITEM* pRoot);
-    virtual void    GetDispInfo(CListCtrl* pListCtrl, NMHDR* pNMHDR, LRESULT* pResult);
-    virtual void    DrawItem(CListCtrl* pListCtrl, LPDRAWITEMSTRUCT lpDrawItemStruct);
-};
-
-CDirListDelegate::CDirListDelegate(TFILEITEM* pRoot)
-{
-    m_pRoot = pRoot;
-}
-
-void    CDirListDelegate::GetDispInfo(CListCtrl* pListCtrl, NMHDR* pNMHDR, LRESULT* pResult)
-{
-    NMLVDISPINFO *pDispInfo = reinterpret_cast<NMLVDISPINFO *>(pNMHDR);
-    LVITEM *pItem = &(pDispInfo)->item;
-    //£¨1£©LVIF_TEXT   ±ØÐëÌî³ä pszText
-    m_pRoot->GetItem(pItem->iItem);
-    //£¨2£©LVIF_IMAGE  ±ØÐëÌî³ä iImage 
-    //£¨3£©LVIF_INDENT ±ØÐëÌî³ä iIndent
-    //£¨4£©LVIF_PARAM  ±ØÐëÌî³ä lParam 
-    //£¨5£©LVIF_STATE  ±ØÐëÌî³ä state
-}
-
-void    CDirListDelegate::DrawItem(CListCtrl* pListCtrl, LPDRAWITEMSTRUCT lpDrawItemStruct)
-{
-}
+//#include "IListDelegate.h"
+//
+//class CDirListDelegate : public IListDelegate
+//{
+//public:
+//    TFILEITEM* m_pRoot;
+//
+//public:
+//    CDirListDelegate(TFILEITEM* pRoot);
+//    virtual void    GetDispInfo(CListCtrl* pListCtrl, NMHDR* pNMHDR, LRESULT* pResult);
+//    virtual void    DrawItem(CListCtrl* pListCtrl, LPDRAWITEMSTRUCT lpDrawItemStruct);
+//};
+//
+//CDirListDelegate::CDirListDelegate(TFILEITEM* pRoot)
+//{
+//    m_pRoot = pRoot;
+//}
+//
+//void    CDirListDelegate::GetDispInfo(CListCtrl* pListCtrl, NMHDR* pNMHDR, LRESULT* pResult)
+//{
+//    NMLVDISPINFO *pDispInfo = reinterpret_cast<NMLVDISPINFO *>(pNMHDR);
+//    LVITEM *pItem = &(pDispInfo)->item;
+//    //£¨1£©LVIF_TEXT   ±ØÐëÌî³ä pszText
+//    m_pRoot->GetItem(pItem->iItem);
+//    //£¨2£©LVIF_IMAGE  ±ØÐëÌî³ä iImage 
+//    //£¨3£©LVIF_INDENT ±ØÐëÌî³ä iIndent
+//    //£¨4£©LVIF_PARAM  ±ØÐëÌî³ä lParam 
+//    //£¨5£©LVIF_STATE  ±ØÐëÌî³ä state
+//}
+//
+//void    CDirListDelegate::DrawItem(CListCtrl* pListCtrl, LPDRAWITEMSTRUCT lpDrawItemStruct)
+//{
+//}
 
 //DWORD       (*GetColumnCount)(void* ctx);
 //void*       (*GetColumn)(void* ctx, DWORD dwIndex);

@@ -5,16 +5,25 @@
 #include "SplitterControl.h"
 #include "CDirDiffCtrl.h"
 
+class CQuickCompareDirView;
+
+struct CompareDelegateContext
+{
+    CQuickCompareDirDoc*    pDoc;
+    CQuickCompareDirView*   pView;
+    struct TFILEITEM*       pRoot;
+    INT                     nSide;
+};
+
+
 // CQuickCompareDirView
-#define IDC_DIRLIST_LEFT    1001
-#define IDC_DIRLIST_RIGHT   1002
-#define IDC_DIRDIFF         1003
 class CQuickCompareDirView : public CQuickCompareView
 {
 	DECLARE_DYNCREATE(CQuickCompareDirView)
 
 private:
-    CDirDiffCtrl    m_tDirDiffCtrl;
+    CDirDiffCtrl                    m_tDirDiffCtrl;
+    struct CompareDelegateContext   m_tDelegateContext[2];
 
 public:
 	CQuickCompareDirView();
@@ -25,10 +34,10 @@ private:
 protected:
 	DECLARE_MESSAGE_MAP()
 public:
-    afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
-    virtual void OnInitialUpdate();
-    afx_msg void OnSize(UINT nType, int cx, int cy);
-    afx_msg void GetDisplayInfo(NMHDR* pNMHDR, LRESULT* pResult);
+    afx_msg int     OnCreate(LPCREATESTRUCT lpCreateStruct);
+    virtual void    OnInitialUpdate();
+    afx_msg void    OnSize(UINT nType, int cx, int cy);
+    afx_msg void    OnGetDisplayInfo(INT nSide, NMHDR* pNMHDR, LRESULT* pResult);
 };
 
 

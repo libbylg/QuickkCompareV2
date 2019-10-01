@@ -91,6 +91,7 @@ void TFILEITEM::ScanChilds(DWORD dwMaxDeep, int iSide)
     }
 }
 
+
 TFILEITEM* TFILEITEM::GetItem(DWORD index)
 {
     if (0 == index) {

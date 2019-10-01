@@ -55,6 +55,8 @@ int CQuickCompareDirView::OnCreate(LPCREATESTRUCT lpCreateStruct)
     this->m_tDirDiffCtrl.BindDelegate(0, this->m_tDelegateContext + 0, CompareGetDisplayDelegate);
     this->m_tDirDiffCtrl.BindDelegate(1, this->m_tDelegateContext + 1, CompareGetDisplayDelegate);
 
+
+
     return 0;
 }
 
@@ -64,19 +66,15 @@ void CQuickCompareDirView::OnInitialUpdate()
     CQuickCompareView::OnInitialUpdate();
 
     CQuickCompareDirDoc* pDoc = (CQuickCompareDirDoc*)this->GetDocument();
-    TFILEITEM* pRoot = pDoc->GetRootItem();
+    CompareNode* pRoot = pDoc->GetRootItem();
     this->m_tDirDiffCtrl.SetItemCountEx(pRoot->GetTotal());
     
-    
-    this->m_tDelegateContext[0].pDoc = pDoc;
     this->m_tDelegateContext[0].pView = this;
-    this->m_tDelegateContext[0].pRoot = pDoc->GetRootItem();
     this->m_tDelegateContext[0].nSide = 0;
 
-    this->m_tDelegateContext[1].pDoc = pDoc;
     this->m_tDelegateContext[1].pView = this;
-    this->m_tDelegateContext[1].pRoot = pDoc->GetRootItem();
     this->m_tDelegateContext[1].nSide = 1;
+
     this->Relayout();
 }
 
@@ -102,11 +100,32 @@ void CQuickCompareDirView::Relayout()
 
 void CQuickCompareDirView::OnGetDisplayInfo(INT nSide, NMHDR* pNMHDR, LRESULT* pResult)
 {
+    *pResult = 0;
+
+    //  获得真实对象
     LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
     LV_ITEM* pItem= &(pDispInfo)->item;
 
-    //  如果徐哟获取文本
+    //  获取文档对象
+    CQuickCompareDirDoc* pDoc = (CQuickCompareDirDoc*)(this->GetDocument());
+
+    //  获取根节点
+    CompareNode* pRoot = pDoc->GetRootItem();
+
+    //  获取指定索引的节点
+    CompareNode* pFileItem = pRoot->GetItem(pItem->iItem);
+
+    //  如果需要获取文本
     if (pItem->mask & LVIF_TEXT) {
-        this->
+        _tcsncpy_s(pItem->pszText, pItem->cchTextMax, pFileItem->tDescs[nSide].strName, pFileItem->tDescs[nSide].strName.GetLength());
+        return;
     }
+
+    //  如果需要获取文本
+    if (pItem->mask & LVIF_INDENT) {
+        pItem->iIndent = (int)(pFileItem->dwLevel);
+        return;
+    }
+
+    
 }

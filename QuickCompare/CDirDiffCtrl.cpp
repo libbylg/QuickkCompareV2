@@ -3,6 +3,7 @@
 
 #include "stdafx.h"
 #include "CDirDiffCtrl.h"
+#include "Resource.h"
 
 #define IDC_DIRLIST_LEFT    1000
 #define IDC_DIRLIST_RIGHT   1001
@@ -59,6 +60,13 @@ BOOL    CDirDiffCtrl::Create(DWORD dwStaticStyle, const CRect& rect, CWnd* pPare
         return FALSE;
     }
 
+    //  创建图像列表
+    bRet = m_tImageList.Create(IDB_BITMAP1, 32, ILC_COLOR4, RGB(255, 255, 255));
+    if (!bRet) {
+        ASSERT(TRUE == bRet);
+        return FALSE;
+    }
+
     //  计算矩形宽度
     int iListWidth = (rect.Width() - RESERVE_WIDTH) / 2;
 
@@ -80,6 +88,8 @@ BOOL    CDirDiffCtrl::Create(DWORD dwStaticStyle, const CRect& rect, CWnd* pPare
             ASSERT(TRUE == bRet);
             return FALSE;
         }
+
+        pList->SetImageList(&m_tImageList, LVSIL_SMALL);
     }
 
     return TRUE;

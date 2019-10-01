@@ -154,6 +154,8 @@
     <ResourceCompile Include="QuickCompare.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="res\bitmap1.bmp" />
+    <Image Include="res\bitmap_s.bmp" />
     <Image Include="res\classview.bmp" />
     <Image Include="res\classview_hc.bmp" />
     <Image Include="res\class_view.ico" />
@@ -173,6 +175,8 @@
     <Image Include="res\properties_hc.bmp" />
     <Image Include="res\properties_wnd.ico" />
     <Image Include="res\properties_wnd_hc.ico" />
+    <Image Include="res\QuickCompare.ico" />
+    <Image Include="res\QuickCompareDoc.ico" />
     <Image Include="res\QuickkCompare.ico" />
     <Image Include="res\QuickkCompareDoc.ico" />
     <Image Include="res\sort.bmp" />

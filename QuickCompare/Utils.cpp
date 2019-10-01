@@ -5,7 +5,7 @@
 
 
 
-TFILEITEM::TFILEITEM()
+CompareNode::CompareNode()
 {
     this->pPrev = this;
     this->pNext = this;
@@ -14,36 +14,36 @@ TFILEITEM::TFILEITEM()
     this->dwChildsCount = 0;
     this->dwFlag = ITEMFLAG_DEFAULT;
     this->dwLevel = 0;
-    //this->strName;
+    //this->tItems;
     this->pAlign = NULL;
 }
 
-TFILEITEM::TFILEITEM(BOOL bDir, const CString& strLeft, const CString& strRight)
-{
-    this->pPrev = this;
-    this->pNext = this;
-    this->pParent = NULL;
-    this->pChilds = NULL;
-    this->dwChildsCount = 0;
-    this->dwFlag = (bDir?ITEMFLAG_DIR:ITEMFLAG_DEFAULT);
-    this->dwLevel = 0;
-    this->strNames[0] = strLeft;
-    this->strNames[1] = strRight;
-    this->pAlign = NULL;
-}
+//CompareNode::CompareNode(BOOL bDir, const CString& strLeft, const CString& strRight)
+//{
+//    this->pPrev = this;
+//    this->pNext = this;
+//    this->pParent = NULL;
+//    this->pChilds = NULL;
+//    this->dwChildsCount = 0;
+//    this->dwFlag = (bDir?ITEMFLAG_DIR:ITEMFLAG_DEFAULT);
+//    this->dwLevel = 0;
+//    this->strNames[0] = strLeft;
+//    this->strNames[1] = strRight;
+//    this->pAlign = NULL;
+//}
 
-CString TFILEITEM::GetFullPath(int iSide)
+CString CompareNode::GetFullPath(int iSide)
 {
-    CString strPath = this->strNames[iSide];
-    TFILEITEM* pParent = this->pParent;
+    CString strPath = this->tDescs[iSide].strName;
+    CompareNode* pParent = this->pParent;
     while (pParent) {
-        strPath = pParent->strNames[iSide] + _T("\\") + strPath;
+        strPath = pParent->tDescs[iSide].strName + _T("\\") + strPath;
     }
 
     return strPath;
 }
 
-TFILEITEM* TFILEITEM::AppendChild(TFILEITEM* pItem)
+CompareNode* CompareNode::AppendChild(CompareNode* pItem)
 {
     ASSERT((NULL != pItem));
     pItem->dwLevel = this->dwLevel + 1;
@@ -64,7 +64,7 @@ TFILEITEM* TFILEITEM::AppendChild(TFILEITEM* pItem)
 
 
 
-void TFILEITEM::ScanChilds(DWORD dwMaxDeep, int iSide)
+void CompareNode::ScanChilds(DWORD dwMaxDeep, int iSide)
 {
     //  无法继续深入了
     if (dwMaxDeep == 0) {
@@ -81,7 +81,17 @@ void TFILEITEM::ScanChilds(DWORD dwMaxDeep, int iSide)
             continue;
         }
 
-        TFILEITEM* pItem = this->AppendChild(new TFILEITEM(fd.IsDirectory(), fd.GetFileName(), fd.GetFileName()));
+
+        CompareNode* pNode = new CompareNode();
+
+        FileDesc tDesc;
+        tDesc.strName = fd.GetFileName();
+        fd.GetLastWriteTime(&(tDesc.tLastModifyTime));
+        tDesc.llSize = fd.GetLength();
+        
+        pNode->tDescs[0] = tDesc;
+        
+        CompareNode* pItem = this->AppendChild(pNode);
         ASSERT(NULL != pItem);
         if (fd.IsDirectory()) {
             if (dwMaxDeep > 1) {
@@ -92,13 +102,13 @@ void TFILEITEM::ScanChilds(DWORD dwMaxDeep, int iSide)
 }
 
 
-TFILEITEM* TFILEITEM::GetItem(DWORD index)
+CompareNode* CompareNode::GetItem(DWORD index)
 {
     if (0 == index) {
         return this;
     }
 
-    TFILEITEM* pItem = this;
+    CompareNode* pItem = this;
     DWORD dwPos = 0;
     while (dwPos < index) {
 
@@ -127,10 +137,10 @@ TFILEITEM* TFILEITEM::GetItem(DWORD index)
     return pItem;
 }
 
-DWORD       TFILEITEM::GetTotal()
+DWORD       CompareNode::GetTotal()
 {
     DWORD dwTotal = 1;  //  自己也计算在内
-    TFILEITEM* pItem = this;
+    CompareNode* pItem = this;
     DWORD dwPos = 0;
     while (NULL != pItem) {
 

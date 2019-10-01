@@ -226,6 +226,18 @@
     <Image Include="res\Toolbar256.bmp">
       <Filter>资源文件</Filter>
     </Image>
+    <Image Include="res\bitmap1.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\bitmap_s.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\QuickCompare.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\QuickCompareDoc.ico">
+      <Filter>资源文件</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="QuickCompare.rc">

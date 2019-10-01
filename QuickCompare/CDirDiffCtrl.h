@@ -18,6 +18,7 @@ class CDirDiffCtrl : public CStatic
 private:
     CListCtrl       m_tDirLists[2];
     DelegateItem    m_tDelegateItems[2];
+    CImageList      m_tImageList;
 
 public:
 	CDirDiffCtrl();

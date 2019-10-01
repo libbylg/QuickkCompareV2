@@ -10,26 +10,44 @@ enum EITEMFLAG
     ITEMFLAG_DEFAULT    = 0x00000000,
 };
 
-struct TFILEITEM
-{
-    TFILEITEM*  pPrev;
-    TFILEITEM*  pNext;
-    TFILEITEM*  pParent;        //  父节点
-    TFILEITEM*  pChilds;        //  子节点
-    DWORD       dwChildsCount;  //  子节点的个数
-    DWORD       dwFlag;         //  选项
-    DWORD       dwLevel;        //  层级
-    //CString     strName;        //  名字
-    TFILEITEM*  pAlign;         //  与那一项对齐
-    CString     strNames[2];    //  当有多个视图时，会存在多个名称
 
-    TFILEITEM();
-    TFILEITEM(BOOL bDir, const CString& strLeft, const CString& strRight);
-    CString     GetFullPath(int iSide);
-    TFILEITEM*  AppendChild(TFILEITEM* pItem);
-    void        ScanChilds(DWORD dwMaxDeep, int iSide);
-    TFILEITEM*  GetItem(DWORD index);
-    DWORD       GetTotal();
+struct FileDesc
+{
+    CString     strName;
+    LONGLONG    llSize;
+    FILETIME    tLastModifyTime;
+    FileDesc()
+    {
+        this->llSize = 0;
+        this->tLastModifyTime.dwHighDateTime = 0;
+        this->tLastModifyTime.dwLowDateTime = 0;
+    }
+    FileDesc(const CString& strName, LONGLONG llSize, FILETIME tLastModifyTime)
+    {
+        this->strName = strName;
+        this->llSize = llSize;
+        this->tLastModifyTime = tLastModifyTime;
+    }
+};
+
+struct CompareNode
+{
+    CompareNode*    pPrev;
+    CompareNode*    pNext;
+    CompareNode*    pParent;        //  父节点
+    CompareNode*    pChilds;        //  子节点
+    DWORD           dwChildsCount;  //  子节点的个数
+    DWORD           dwFlag;         //  选项
+    DWORD           dwLevel;        //  层级
+    CompareNode*    pAlign;         //  与那一项对齐
+    FileDesc        tDescs[2];    //  当有多个视图时，会存在多个名称
+
+    CompareNode();
+    CString         GetFullPath(int iSide);
+    CompareNode*    AppendChild(CompareNode* pItem);
+    void            ScanChilds(DWORD dwMaxDeep, int iSide);
+    CompareNode*    GetItem(DWORD index);
+    DWORD           GetTotal();
 };
 
 struct CPathUtils

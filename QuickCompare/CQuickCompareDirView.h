@@ -9,9 +9,7 @@ class CQuickCompareDirView;
 
 struct CompareDelegateContext
 {
-    CQuickCompareDirDoc*    pDoc;
     CQuickCompareDirView*   pView;
-    struct TFILEITEM*       pRoot;
     INT                     nSide;
 };
 

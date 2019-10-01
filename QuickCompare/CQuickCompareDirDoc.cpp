@@ -9,15 +9,15 @@
 //class CDirListDelegate : public IListDelegate
 //{
 //public:
-//    TFILEITEM* m_pRoot;
+//    CompareNode* m_pRoot;
 //
 //public:
-//    CDirListDelegate(TFILEITEM* pRoot);
+//    CDirListDelegate(CompareNode* pRoot);
 //    virtual void    GetDispInfo(CListCtrl* pListCtrl, NMHDR* pNMHDR, LRESULT* pResult);
 //    virtual void    DrawItem(CListCtrl* pListCtrl, LPDRAWITEMSTRUCT lpDrawItemStruct);
 //};
 //
-//CDirListDelegate::CDirListDelegate(TFILEITEM* pRoot)
+//CDirListDelegate::CDirListDelegate(CompareNode* pRoot)
 //{
 //    m_pRoot = pRoot;
 //}
@@ -79,14 +79,14 @@ BOOL CQuickCompareDirDoc::OnOpenDocument(LPCTSTR lpszPathName)
         strDirs[1] = CPathUtils::DirName(strPathName.Mid(pos +1).Trim());
     }
 
-    //  生成 TFILEITEM
+    //  生成 CompareNode
     for (int i = 0; i < 2; i++) {
-        m_tRootItem.strNames[i] = strDirs[i];
+        m_tRootItem.tDescs[i].strName = strDirs[i];
         m_tRootItem.dwFlag |= ITEMFLAG_DIR;
     }
 
     for (int i = 0; i < 2; i++) {
-        if (m_tRootItem.strNames[i].IsEmpty()) {
+        if (m_tRootItem.tDescs[i].strName.IsEmpty()) {
             continue;
         }
         m_tRootItem.ScanChilds(1, i);
@@ -136,7 +136,7 @@ void CQuickCompareDirDoc::Serialize(CArchive& ar)
 }
 #endif
 
-TFILEITEM*  CQuickCompareDirDoc::GetRootItem()
+CompareNode*  CQuickCompareDirDoc::GetRootItem()
 {
     return &(this->m_tRootItem);
 }

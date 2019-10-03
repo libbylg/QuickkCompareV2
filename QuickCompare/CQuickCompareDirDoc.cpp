@@ -89,7 +89,7 @@ BOOL CQuickCompareDirDoc::OnOpenDocument(LPCTSTR lpszPathName)
         if (m_tRootItem.tDescs[i].strName.IsEmpty()) {
             continue;
         }
-        m_tRootItem.ScanChilds(1, i);
+        m_tRootItem.ScanChilds(SCAN_DEEP_MAX, i);
     }
 
     return TRUE;

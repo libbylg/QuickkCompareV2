@@ -117,13 +117,21 @@ void CQuickCompareDirView::OnGetDisplayInfo(INT nSide, NMHDR* pNMHDR, LRESULT* p
 
     //  如果需要获取文本
     if (pItem->mask & LVIF_TEXT) {
-        _tcsncpy_s(pItem->pszText, pItem->cchTextMax, pFileItem->tDescs[nSide].strName, pFileItem->tDescs[nSide].strName.GetLength());
+        if (0 == pItem->iSubItem) {
+            _tcsncpy_s(pItem->pszText, pItem->cchTextMax, pFileItem->tDescs[nSide].strName, pFileItem->tDescs[nSide].strName.GetLength());
+        }
         return;
     }
 
     //  如果需要获取文本
     if (pItem->mask & LVIF_INDENT) {
         pItem->iIndent = (int)(pFileItem->dwLevel);
+        return;
+    }
+
+    //  如果需要获取文本
+    if (pItem->mask & LVIF_IMAGE) {
+        pItem->iImage = ((pFileItem->dwChildsCount == 0)?0:1);
         return;
     }
 

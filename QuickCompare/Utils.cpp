@@ -38,6 +38,7 @@ CString CompareNode::GetFullPath(int iSide)
     CompareNode* pParent = this->pParent;
     while (pParent) {
         strPath = pParent->tDescs[iSide].strName + _T("\\") + strPath;
+        pParent = pParent->pParent;
     }
 
     return strPath;

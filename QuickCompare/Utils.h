@@ -2,6 +2,9 @@
 #define __Utils_H_
 
 
+#define SCAN_DEEP_MAX   (65535)
+
+
 enum EITEMFLAG
 {
     ITEMFLAG_VISIBLE    = 0x00000001,
